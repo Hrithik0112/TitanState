@@ -27,7 +27,9 @@
       "@titanstate/types": ["./packages/types/src"],
       "@titanstate/types/*": ["./packages/types/src/*"],
       "@titanstate/core": ["./packages/core/src"],
-      "@titanstate/core/*": ["./packages/core/src/*"]
+      "@titanstate/core/*": ["./packages/core/src/*"],
+      "@titanstate/react": ["./packages/react/src"],
+      "@titanstate/react/*": ["./packages/react/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
