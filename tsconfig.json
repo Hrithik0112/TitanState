@@ -39,7 +39,9 @@
       "@titanstate/devtools": ["./packages/devtools/src"],
       "@titanstate/devtools/*": ["./packages/devtools/src/*"],
       "@titanstate/reactivity": ["./packages/reactivity/src"],
-      "@titanstate/reactivity/*": ["./packages/reactivity/src/*"]
+      "@titanstate/reactivity/*": ["./packages/reactivity/src/*"],
+      "@titanstate/advanced": ["./packages/advanced/src"],
+      "@titanstate/advanced/*": ["./packages/advanced/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
