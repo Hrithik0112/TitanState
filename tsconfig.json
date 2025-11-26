@@ -22,7 +22,13 @@
     "incremental": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@titanstate/types": ["./packages/types/src"],
+      "@titanstate/types/*": ["./packages/types/src/*"],
+      "@titanstate/core": ["./packages/core/src"],
+      "@titanstate/core/*": ["./packages/core/src/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
