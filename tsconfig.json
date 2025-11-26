@@ -31,7 +31,9 @@
       "@titanstate/react": ["./packages/react/src"],
       "@titanstate/react/*": ["./packages/react/src/*"],
       "@titanstate/worker": ["./packages/worker/src"],
-      "@titanstate/worker/*": ["./packages/worker/src/*"]
+      "@titanstate/worker/*": ["./packages/worker/src/*"],
+      "@titanstate/persist": ["./packages/persist/src"],
+      "@titanstate/persist/*": ["./packages/persist/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
