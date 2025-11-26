@@ -2,7 +2,8 @@
  * CRDT (Conflict-free Replicated Data Type) adapters
  */
 
-import type { CRDTOperation, CRDTState, CRDTOperationType } from './types';
+import type { CRDTState, CRDTOperation, CRDTOperationType } from './types';
+export type { CRDTOperation, CRDTOperationType } from './types';
 
 /**
  * CRDT replica
