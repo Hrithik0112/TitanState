@@ -9,6 +9,26 @@ import { SubscriptionManager } from './subscription';
 import { Scheduler } from './scheduler';
 import { areValuesEqual } from './atom';
 
+// Minimal interfaces for integration hooks (avoid circular dependencies)
+// These match the actual interfaces from the respective packages
+interface Driver {
+  put(key: string, value: unknown, options?: unknown): Promise<void>;
+  get(key: string, options?: unknown): Promise<unknown | null>;
+  delete(key: string): Promise<void>;
+  has(key: string): Promise<boolean>;
+  keys(prefix?: string): Promise<string[]>;
+  clear(): Promise<void>;
+}
+
+interface DevToolsBridge {
+  init(store: Store): void;
+  logEvent(event: { type: string; target?: AtomKey; meta?: Record<string, unknown> }): Promise<void>;
+}
+
+interface WorkerBridge {
+  dispatchToWorker(namespace: string, action: unknown, state?: unknown): Promise<unknown>;
+}
+
 /**
  * Internal store implementation
  */
@@ -17,9 +37,20 @@ class StoreImpl implements Store {
   private subscriptions = new SubscriptionManager();
   private scheduler = new Scheduler();
   private inTransaction = false;
+  private persistenceDriver: Driver | null = null;
+  private devtoolsBridge: DevToolsBridge | null = null;
+  private workerBridge: WorkerBridge | null = null;
   
-  constructor(_config: StoreConfig = {}) {
-    // Config stored for future use (drivers, workers, etc.)
+  constructor(config: StoreConfig = {}) {
+    // Store integration hooks
+    this.persistenceDriver = (config.persistenceDriver as Driver) ?? null;
+    this.devtoolsBridge = (config.devtoolsBridge as DevToolsBridge) ?? null;
+    this.workerBridge = (config.workerBridge as WorkerBridge) ?? null;
+    
+    // Initialize DevTools bridge if provided
+    if (this.devtoolsBridge) {
+      this.devtoolsBridge.init(this);
+    }
     
     // Set up scheduler notification callback
     this.scheduler.setNotifyCallback((updates) => {
@@ -29,6 +60,20 @@ class StoreImpl implements Store {
           update.value,
           update.previousValue
         );
+        
+        // Log to DevTools if enabled
+        if (this.devtoolsBridge) {
+          this.devtoolsBridge.logEvent({
+            type: 'atom-update',
+            target: update.atom.key,
+            meta: {
+              previousValue: update.previousValue,
+              newValue: update.value,
+            },
+          }).catch(error => {
+            console.error('Error logging to DevTools:', error);
+          });
+        }
       }
     });
   }
@@ -61,6 +106,39 @@ class StoreImpl implements Store {
       return atom.value;
     }
     
+    // Auto-hydrate if atom is persisted and we have a driver
+    if (atom.meta.persisted && !atom.meta.hydrated && this.persistenceDriver) {
+      try {
+        // Dynamic import to avoid circular dependencies
+        // @ts-ignore - Dynamic import for optional dependency
+        const persistModule = await import('@titanstate/persist');
+        // @ts-ignore - Dynamic import for optional dependency
+        const value = await persistModule.hydrateAtom(atom, this.persistenceDriver) as T;
+        atom.value = value;
+        atom.meta.hydrated = true;
+        
+        // Log hydration to DevTools
+        if (this.devtoolsBridge) {
+          await this.devtoolsBridge.logEvent({
+            type: 'hydration',
+            target: atom.key,
+            meta: {
+              size: atom.meta.size,
+            },
+          });
+        }
+        
+        return value;
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error(`Error hydrating atom ${String(atom.key)}:`, errorMessage);
+        // If hydration fails and we have no value, throw
+        if (atom.value === undefined) {
+          throw error;
+        }
+      }
+    }
+    
     // For lazy-loaded atoms, we would hydrate here
     // This will be implemented in the persist layer
     // For now, return the value or initial value
@@ -87,8 +165,13 @@ class StoreImpl implements Store {
     // Schedule notification (batched)
     this.scheduler.schedule(atom, value, previousValue);
     
-    // If persisted, we would save here (implemented in persist layer)
-    // For now, just update in-memory
+    // Auto-persist if atom is persisted and we have a driver
+    if (atom.meta.persisted && this.persistenceDriver) {
+      // Persist asynchronously (fire and forget)
+      this.persistAtom(atom).catch(error => {
+        console.error(`Error persisting atom ${String(atom.key)}:`, error);
+      });
+    }
   }
   
   async setAsync<T>(atom: Atom<T>, value: T): Promise<void> {
@@ -107,8 +190,10 @@ class StoreImpl implements Store {
     // Schedule notification (batched)
     this.scheduler.schedule(atom, value, previousValue);
     
-    // If persisted, we would save here (implemented in persist layer)
-    // For now, just update in-memory
+    // Auto-persist if atom is persisted and we have a driver
+    if (atom.meta.persisted && this.persistenceDriver) {
+      await this.persistAtom(atom);
+    }
   }
   
   subscribe<T>(atom: Atom<T>, listener: (value: T, previousValue: T | undefined) => void) {
@@ -123,11 +208,35 @@ class StoreImpl implements Store {
     }
     
     this.inTransaction = true;
+    const transactionId = `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const startTime = Date.now();
+    
+    // Log transaction start to DevTools
+    if (this.devtoolsBridge) {
+      await this.devtoolsBridge.logEvent({
+        type: 'transaction-start',
+        meta: {
+          transactionId,
+        },
+      });
+    }
     
     try {
       await callback();
       // Flush all updates synchronously after transaction
       this.scheduler.flushSync();
+      
+      // Log transaction end to DevTools
+      if (this.devtoolsBridge) {
+        const duration = Date.now() - startTime;
+        await this.devtoolsBridge.logEvent({
+          type: 'transaction-end',
+          meta: {
+            transactionId,
+            duration,
+          },
+        });
+      }
     } finally {
       this.inTransaction = false;
     }
@@ -154,6 +263,52 @@ class StoreImpl implements Store {
     this.subscriptions.clear();
     this.scheduler.clear();
     this.atoms.clear();
+    this.persistenceDriver = null;
+    this.devtoolsBridge = null;
+    this.workerBridge = null;
+  }
+  
+  /**
+   * Persist an atom to storage (internal helper)
+   */
+  private async persistAtom<T>(atom: Atom<T>): Promise<void> {
+    if (!this.persistenceDriver || !atom.meta.persisted || !atom.meta.key) {
+      return;
+    }
+    
+    try {
+      // Dynamic import to avoid circular dependencies
+      // @ts-ignore - Dynamic import for optional dependency
+      const persistModule = await import('@titanstate/persist');
+      // @ts-ignore - Dynamic import for optional dependency
+      await persistModule.persistAtom(atom, this.persistenceDriver, {
+        compress: atom.options.compress,
+      });
+    } catch (error) {
+      console.error(`Error persisting atom ${String(atom.key)}:`, error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Get persistence driver (for external access)
+   */
+  getPersistenceDriver(): Driver | null {
+    return this.persistenceDriver;
+  }
+  
+  /**
+   * Get DevTools bridge (for external access)
+   */
+  getDevToolsBridge(): DevToolsBridge | null {
+    return this.devtoolsBridge;
+  }
+  
+  /**
+   * Get worker bridge (for external access)
+   */
+  getWorkerBridge(): WorkerBridge | null {
+    return this.workerBridge;
   }
 }
 

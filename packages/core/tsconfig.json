@@ -6,7 +6,13 @@
     "composite": true,
     "paths": {
       "@titanstate/types": ["../types/src"],
-      "@titanstate/types/*": ["../types/src/*"]
+      "@titanstate/types/*": ["../types/src/*"],
+      "@titanstate/persist": ["../persist/src"],
+      "@titanstate/persist/*": ["../persist/src/*"],
+      "@titanstate/devtools": ["../devtools/src"],
+      "@titanstate/devtools/*": ["../devtools/src/*"],
+      "@titanstate/worker": ["../worker/src"],
+      "@titanstate/worker/*": ["../worker/src/*"]
     }
   },
   "include": ["src/**/*"],
@@ -14,6 +20,15 @@
   "references": [
     {
       "path": "../types"
+    },
+    {
+      "path": "../persist"
+    },
+    {
+      "path": "../devtools"
+    },
+    {
+      "path": "../worker"
     }
   ]
 }

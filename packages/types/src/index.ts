@@ -105,6 +105,24 @@ export interface StoreConfig {
    * Enable multi-tab synchronization
    */
   multiTab?: boolean;
+  
+  /**
+   * Persistence driver for automatic persistence (optional)
+   * When provided, persisted atoms will be automatically saved/loaded
+   */
+  persistenceDriver?: unknown; // Driver from @titanstate/persist
+  
+  /**
+   * DevTools bridge for automatic event logging (optional)
+   * When provided, atom updates will be automatically logged
+   */
+  devtoolsBridge?: unknown; // DevToolsBridge from @titanstate/devtools
+  
+  /**
+   * Worker bridge for optional worker dispatch (optional)
+   * When provided, heavy operations can be dispatched to workers
+   */
+  workerBridge?: unknown; // WorkerBridge from @titanstate/worker
 }
 
 /**
