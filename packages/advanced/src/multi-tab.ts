@@ -165,7 +165,7 @@ export class MultiTabSync {
   /**
    * Send message to other tabs
    */
-  private sendMessage(type: SyncMessageType, payload: unknown): void {
+  sendMessage(type: SyncMessageType, payload: unknown): void {
     const message: SyncMessage = {
       type,
       payload,

@@ -25,7 +25,7 @@ export interface EncryptionOptions {
 /**
  * Multi-tab sync message types
  */
-export type SyncMessageType = 'state-update' | 'atom-change' | 'sync-request' | 'sync-response';
+export type SyncMessageType = 'state-update' | 'atom-change' | 'sync-request' | 'sync-response' | 'crdt-operations';
 
 /**
  * Multi-tab sync message

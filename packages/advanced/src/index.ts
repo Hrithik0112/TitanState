@@ -24,6 +24,18 @@ export type { Migration, MigrationFunction } from './types';
 
 // CRDT
 export { CRDTReplica, createCRDTReplica, lastWriteWins } from './crdt';
+export { CRDTAdapter, createCRDTAdapter } from './crdt-adapter';
+export type { CRDTAdapterConfig } from './crdt-adapter';
+export {
+  MultiTabCRDTSync,
+  RemoteCRDTSync,
+  createMultiTabCRDTSync,
+  createRemoteCRDTSync,
+} from './crdt-sync';
+export type {
+  MultiTabCRDTSyncConfig,
+  RemoteCRDTSyncConfig,
+} from './crdt-sync';
 
 // Types
 export type {
