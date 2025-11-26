@@ -16,8 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "rollup -c",
+    "dev": "rollup -c --watch",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Tests coming soon\""

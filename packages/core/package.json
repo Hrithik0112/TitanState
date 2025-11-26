@@ -1,6 +1,7 @@
 {
   "name": "@titanstate/core",
   "version": "0.1.0",
+  "type": "module",
   "description": "Core store engine for TitanState",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -16,8 +17,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "rollup -c",
+    "dev": "rollup -c --watch",
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
     "test": "echo \"Tests coming soon\""
