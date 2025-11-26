@@ -25,6 +25,7 @@
   "dependencies": {
     "@titanstate/core": "workspace:*",
     "@titanstate/types": "workspace:*",
+    "@titanstate/reactivity": "workspace:*",
     "react": "^18.0.0"
   },
   "devDependencies": {

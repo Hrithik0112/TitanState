@@ -9,7 +9,9 @@
       "@titanstate/core": ["../core/src"],
       "@titanstate/core/*": ["../core/src/*"],
       "@titanstate/types": ["../types/src"],
-      "@titanstate/types/*": ["../types/src/*"]
+      "@titanstate/types/*": ["../types/src/*"],
+      "@titanstate/reactivity": ["../reactivity/src"],
+      "@titanstate/reactivity/*": ["../reactivity/src/*"]
     }
   },
   "include": ["src/**/*"],
@@ -20,6 +22,9 @@
     },
     {
       "path": "../types"
+    },
+    {
+      "path": "../reactivity"
     }
   ]
 }

@@ -74,6 +74,9 @@ export function createSignal<T = SignalValue>(
 
 /**
  * Create a computed signal (read-only)
+ * 
+ * Note: For automatic dependency tracking with atoms, use createSelector
+ * from the selectors module instead, which integrates with the store.
  */
 export function createComputed<T = SignalValue>(
   compute: () => T,

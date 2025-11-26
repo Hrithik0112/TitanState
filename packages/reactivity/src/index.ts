@@ -31,3 +31,11 @@ export type {
   SelectorOptions,
 } from './types';
 
+// Dependency tracking
+export {
+  dependencyTracker,
+  trackedGet,
+  withTracking,
+  createTrackedStore,
+} from './dependency-tracker';
+
