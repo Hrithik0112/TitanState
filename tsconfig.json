@@ -33,7 +33,9 @@
       "@titanstate/worker": ["./packages/worker/src"],
       "@titanstate/worker/*": ["./packages/worker/src/*"],
       "@titanstate/persist": ["./packages/persist/src"],
-      "@titanstate/persist/*": ["./packages/persist/src/*"]
+      "@titanstate/persist/*": ["./packages/persist/src/*"],
+      "@titanstate/query": ["./packages/query/src"],
+      "@titanstate/query/*": ["./packages/query/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
