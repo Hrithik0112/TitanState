@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "types": ["chrome", "vite/client"],
+    "paths": {
+      "@titanstate/devtools": ["../../packages/devtools/src"],
+      "@titanstate/devtools/*": ["../../packages/devtools/src/*"],
+      "@titanstate/types": ["../../packages/types/src"],
+      "@titanstate/types/*": ["../../packages/types/src/*"]
+    }
+  },
+  "include": ["src/**/*", "manifest.json"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    {
+      "path": "../../packages/devtools"
+    },
+    {
+      "path": "../../packages/types"
+    }
+  ]
+}
+
