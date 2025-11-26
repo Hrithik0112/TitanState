@@ -2,12 +2,13 @@
  * Store creation and management
  */
 
-import type { StoreConfig, AtomKey, AtomOptions, TransactionCallback } from '@titanstate/types';
+import type { StoreConfig, AtomKey, AtomOptions, TransactionCallback, Action } from '@titanstate/types';
 import type { Store, Atom } from './types';
 import { createAtom } from './atom';
 import { SubscriptionManager } from './subscription';
 import { Scheduler } from './scheduler';
 import { areValuesEqual } from './atom';
+import { composeMiddleware, type Middleware } from './middleware';
 
 // Minimal interfaces for integration hooks (avoid circular dependencies)
 // These match the actual interfaces from the respective packages
@@ -40,12 +41,23 @@ class StoreImpl implements Store {
   private persistenceDriver: Driver | null = null;
   private devtoolsBridge: DevToolsBridge | null = null;
   private workerBridge: WorkerBridge | null = null;
+  private middlewareChain: ((action: Action) => unknown) | null = null;
   
   constructor(config: StoreConfig = {}) {
     // Store integration hooks
     this.persistenceDriver = (config.persistenceDriver as Driver) ?? null;
     this.devtoolsBridge = (config.devtoolsBridge as DevToolsBridge) ?? null;
     this.workerBridge = (config.workerBridge as WorkerBridge) ?? null;
+    
+    // Setup middleware chain if provided
+    if (config.middleware && config.middleware.length > 0) {
+      const middlewares = config.middleware as Middleware[];
+      const finalDispatch = (action: Action) => {
+        // Final dispatch - no-op by default, slices handle their own dispatch
+        return action;
+      };
+      this.middlewareChain = composeMiddleware(middlewares)(this, finalDispatch);
+    }
     
     // Initialize DevTools bridge if provided
     if (this.devtoolsBridge) {
@@ -242,11 +254,15 @@ class StoreImpl implements Store {
     }
   }
   
-  dispatch(_action: unknown): void {
-    // Dispatch is primarily for slice compatibility
-    // For now, this is a no-op at the store level
+  dispatch(action: unknown): unknown {
+    // If middleware chain exists, use it
+    if (this.middlewareChain) {
+      return this.middlewareChain(action as Action);
+    }
+    
+    // Otherwise, default behavior (no-op at store level)
     // Slices handle their own dispatch
-    // This will be enhanced when we add middleware support
+    return action;
   }
   
   /**
