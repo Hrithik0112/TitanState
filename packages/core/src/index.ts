@@ -16,6 +16,22 @@ export type { Atom } from './types';
 export { createSlice } from './slice';
 export type { Slice } from './slice';
 
+// RTK Compatibility
+export {
+  configureStore,
+  createAction,
+  createReducer,
+  createAsyncThunk,
+} from './rtk-compat';
+export type {
+  RTKStore,
+  ConfigureStoreOptions,
+  CaseReducer,
+  CaseReducers,
+  ReducerBuilder,
+  AsyncThunkOptions,
+} from './rtk-compat';
+
 // Types
 export type {
   StoreConfig,
