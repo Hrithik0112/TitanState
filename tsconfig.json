@@ -35,7 +35,9 @@
       "@titanstate/persist": ["./packages/persist/src"],
       "@titanstate/persist/*": ["./packages/persist/src/*"],
       "@titanstate/query": ["./packages/query/src"],
-      "@titanstate/query/*": ["./packages/query/src/*"]
+      "@titanstate/query/*": ["./packages/query/src/*"],
+      "@titanstate/devtools": ["./packages/devtools/src"],
+      "@titanstate/devtools/*": ["./packages/devtools/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
