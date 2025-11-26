@@ -31,6 +31,15 @@ export type {
   EvictionPolicy,
 } from '@titanstate/types';
 
+// Middleware
+export {
+  applyMiddleware,
+  composeMiddleware,
+  loggerMiddleware,
+  thunkMiddleware,
+} from './middleware';
+export type { Middleware, MiddlewareAPI } from './middleware';
+
 // Internal (for advanced use cases)
 export { SubscriptionManager } from './subscription';
 export { Scheduler } from './scheduler';

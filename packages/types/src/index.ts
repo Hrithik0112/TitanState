@@ -123,6 +123,12 @@ export interface StoreConfig {
    * When provided, heavy operations can be dispatched to workers
    */
   workerBridge?: unknown; // WorkerBridge from @titanstate/worker
+  
+  /**
+   * Middleware functions to apply to dispatch (optional)
+   * Middleware will be applied in the order provided
+   */
+  middleware?: Array<(action: Action, store: unknown, next: (action: Action) => unknown) => unknown>;
 }
 
 /**
