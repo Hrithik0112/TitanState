@@ -1,0 +1,51 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@titanstate/core": ["../../packages/core/src"],
+      "@titanstate/core/*": ["../../packages/core/src/*"],
+      "@titanstate/react": ["../../packages/react/src"],
+      "@titanstate/react/*": ["../../packages/react/src/*"],
+      "@titanstate/persist": ["../../packages/persist/src"],
+      "@titanstate/persist/*": ["../../packages/persist/src/*"],
+      "@titanstate/query": ["../../packages/query/src"],
+      "@titanstate/query/*": ["../../packages/query/src/*"],
+      "@titanstate/worker": ["../../packages/worker/src"],
+      "@titanstate/worker/*": ["../../packages/worker/src/*"],
+      "@titanstate/devtools": ["../../packages/devtools/src"],
+      "@titanstate/devtools/*": ["../../packages/devtools/src/*"],
+      "@titanstate/types": ["../../packages/types/src"],
+      "@titanstate/types/*": ["../../packages/types/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    {
+      "path": "../../packages/types"
+    },
+    {
+      "path": "../../packages/core"
+    },
+    {
+      "path": "../../packages/react"
+    },
+    {
+      "path": "../../packages/persist"
+    },
+    {
+      "path": "../../packages/query"
+    },
+    {
+      "path": "../../packages/worker"
+    },
+    {
+      "path": "../../packages/devtools"
+    }
+  ]
+}
+
