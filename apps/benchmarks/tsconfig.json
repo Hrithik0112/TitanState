@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@titanstate/core": ["../../packages/core/src"],
+      "@titanstate/core/*": ["../../packages/core/src/*"],
+      "@titanstate/persist": ["../../packages/persist/src"],
+      "@titanstate/persist/*": ["../../packages/persist/src/*"],
+      "@titanstate/worker": ["../../packages/worker/src"],
+      "@titanstate/worker/*": ["../../packages/worker/src/*"],
+      "@titanstate/devtools": ["../../packages/devtools/src"],
+      "@titanstate/devtools/*": ["../../packages/devtools/src/*"],
+      "@titanstate/types": ["../../packages/types/src"],
+      "@titanstate/types/*": ["../../packages/types/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    {
+      "path": "../../packages/core"
+    },
+    {
+      "path": "../../packages/persist"
+    },
+    {
+      "path": "../../packages/devtools"
+    },
+    {
+      "path": "../../packages/types"
+    }
+  ]
+}
+

@@ -1,0 +1,23 @@
+{
+  "name": "@titanstate/benchmarks",
+  "version": "0.1.0",
+  "description": "Performance benchmarks for TitanState",
+  "type": "module",
+  "scripts": {
+    "benchmark": "node dist/index.js",
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@titanstate/core": "workspace:*",
+    "@titanstate/persist": "workspace:*",
+    "@titanstate/worker": "workspace:*",
+    "@titanstate/devtools": "workspace:*",
+    "@titanstate/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  }
+}
+
