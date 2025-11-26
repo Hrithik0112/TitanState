@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true,
+    "paths": {
+      "@titanstate/core": ["../core/src"],
+      "@titanstate/core/*": ["../core/src/*"],
+      "@titanstate/types": ["../types/src"],
+      "@titanstate/types/*": ["../types/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"],
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../types"
+    }
+  ]
+}
+
