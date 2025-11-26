@@ -3,11 +3,13 @@
  */
 
 import type {
-  Signal,
   SignalValue,
   Selector,
   SelectorOptions,
 } from './types';
+import type { Store } from '@titanstate/core';
+import type { Atom } from '@titanstate/types';
+import { withTracking } from './dependency-tracker';
 
 /**
  * Default equality function
@@ -21,7 +23,7 @@ function defaultEquals<T>(a: T, b: T): boolean {
  */
 interface MemoizedResult<T> {
   value: T;
-  dependencies: Signal<unknown>[];
+  dependencies: Atom<unknown>[];
   timestamp: number;
 }
 
@@ -32,12 +34,18 @@ export class SelectorSignal<T = SignalValue> {
   private selector: Selector<T>;
   private options: SelectorOptions<T>;
   private memoized: MemoizedResult<T> | null = null;
-  private dependencies: Signal<unknown>[] = [];
+  private dependencies: Atom<unknown>[] = [];
   private unsubscribeDeps: (() => void)[] = [];
   private subscribers = new Set<(value: T) => void>();
+  private store: Store | null = null;
   
-  constructor(selector: Selector<T>, options: SelectorOptions<T> = {}) {
+  constructor(
+    selector: Selector<T>,
+    options: SelectorOptions<T> = {},
+    store?: Store
+  ) {
     this.selector = selector;
+    this.store = store ?? null;
     this.options = {
       equals: options.equals ?? defaultEquals,
       memo: options.memo ?? true,
@@ -46,16 +54,26 @@ export class SelectorSignal<T = SignalValue> {
   }
   
   /**
+   * Set store for dependency tracking
+   */
+  setStore(store: Store): void {
+    this.store = store;
+  }
+  
+  /**
    * Get current value
    */
   get(): T {
-    // Track dependencies during computation
-    const currentDeps: Signal<unknown>[] = [];
+    if (!this.store) {
+      // Fallback to simple execution without tracking
+      return this.selector();
+    }
     
-    // Execute selector and track dependencies
-    // This is a simplified version - in production, you'd use
-    // a dependency tracking system that intercepts signal.get() calls
-    const newValue = this.selector();
+    // Track dependencies during computation
+    const { result: newValue, dependencies: currentDeps } = withTracking(
+      this.store,
+      () => this.selector()
+    );
     
     // Check if dependencies changed
     const depsChanged = this.dependencies.length !== currentDeps.length ||
@@ -70,7 +88,7 @@ export class SelectorSignal<T = SignalValue> {
     if (this.options.memo) {
       this.memoized = {
         value: newValue,
-        dependencies: [...currentDeps],
+        dependencies: currentDeps,
         timestamp: Date.now(),
       };
     }
@@ -101,7 +119,7 @@ export class SelectorSignal<T = SignalValue> {
   /**
    * Update dependencies
    */
-  private updateDependencies(newDeps: Signal<unknown>[]): void {
+  private updateDependencies(newDeps: Atom<unknown>[]): void {
     // Unsubscribe from old dependencies
     this.unsubscribeFromDependencies();
     
@@ -118,8 +136,12 @@ export class SelectorSignal<T = SignalValue> {
    * Subscribe to dependencies
    */
   private subscribeToDependencies(): void {
+    if (!this.store) {
+      return;
+    }
+    
     this.unsubscribeDeps = this.dependencies.map(dep =>
-      dep.subscribe(() => {
+      this.store!.subscribe(dep, () => {
         // Dependency changed, invalidate memoized value
         this.memoized = null;
         
@@ -152,9 +174,10 @@ export class SelectorSignal<T = SignalValue> {
  */
 export function createSelector<T = SignalValue>(
   selector: Selector<T>,
-  options: SelectorOptions<T> = {}
+  options: SelectorOptions<T> = {},
+  store?: Store
 ): SelectorSignal<T> {
-  return new SelectorSignal(selector, options);
+  return new SelectorSignal(selector, options, store);
 }
 
 /**
@@ -162,11 +185,12 @@ export function createSelector<T = SignalValue>(
  */
 export function createMemo<T = SignalValue>(
   selector: Selector<T>,
-  options: SelectorOptions<T> = {}
+  options: SelectorOptions<T> = {},
+  store?: Store
 ): SelectorSignal<T> {
   return new SelectorSignal(selector, {
     ...options,
     memo: true,
-  });
+  }, store);
 }
 

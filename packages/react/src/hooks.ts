@@ -4,8 +4,10 @@
 
 import { useSyncExternalStore, useCallback, useRef } from 'react';
 import type { Atom, Action } from '@titanstate/types';
+import type { Store } from '@titanstate/core';
 import type { EqualityFn } from './types';
 import { useStore } from './context';
+import { withTracking, trackedGet } from '@titanstate/reactivity';
 
 /**
  * Default equality function for selectors
@@ -105,11 +107,40 @@ export function useSetAtom<T>(atom: Atom<T>): (value: T) => void {
 }
 
 /**
+ * Hook to select a derived value using a selector function with automatic dependency tracking
+ * 
+ * This hook automatically tracks which atoms are accessed during selector execution
+ * and subscribes to them. No need to explicitly pass atoms!
+ * 
+ * The selector function receives a tracked store as its parameter, which automatically
+ * tracks dependencies when you call store.get().
+ * 
+ * @example
+ * ```tsx
+ * // Automatic dependency tracking - store is passed to selector
+ * const userName = useSelector((store) => {
+ *   const user = store.get(userAtom);
+ *   return user.name;
+ * });
+ * 
+ * // Multiple atoms - automatically tracked
+ * const fullName = useSelector((store) => {
+ *   const first = store.get(firstNameAtom);
+ *   const last = store.get(lastNameAtom);
+ *   return `${first} ${last}`;
+ * });
+ * ```
+ */
+export function useSelector<T>(
+  selector: (store: Store) => T,
+  equalityFn?: EqualityFn<T>
+): T;
+
+/**
  * Hook to select a derived value from one or more atoms using a selector function
  * 
- * Note: This is a simplified implementation. For Phase 7 (reactivity engine),
- * we'll add automatic dependency tracking. For now, you must explicitly pass
- * the atoms you want to subscribe to.
+ * @deprecated Use the automatic dependency tracking version instead:
+ * `useSelector(() => { const value = store.get(atom); return ... })`
  * 
  * @example
  * ```tsx
@@ -126,70 +157,163 @@ export function useSelector<T>(
   atoms: Atom<unknown>[],
   selector: (values: unknown[]) => T,
   equalityFn?: EqualityFn<T>
+): T;
+
+export function useSelector<T>(
+  atomsOrSelector: Atom<unknown>[] | ((store: Store) => T),
+  selectorOrEquality?: ((values: unknown[]) => T) | EqualityFn<T>,
+  equalityFn?: EqualityFn<T>
 ): T {
   const store = useStore();
-  const equality = equalityFn ?? defaultEqualityFn;
-  const selectorRef = useRef(selector);
-  const equalityRef = useRef(equality);
-  const atomsRef = useRef(atoms);
   
-  // Update refs if they change
-  selectorRef.current = selector;
-  equalityRef.current = equality;
-  atomsRef.current = atoms;
-  
-  // Subscribe to all atoms
-  const subscribe = useCallback(
-    (onStoreChange: () => void) => {
-      const unsubscribes: (() => void)[] = [];
-      
-      // Subscribe to each atom
-      for (const atom of atomsRef.current) {
-        const unsubscribe = store.subscribe(atom, () => {
-          onStoreChange();
-        });
-        unsubscribes.push(unsubscribe);
-      }
-      
-      return () => {
-        for (const unsubscribe of unsubscribes) {
-          unsubscribe();
+  // Check if this is the new automatic dependency tracking API
+  if (typeof atomsOrSelector === 'function') {
+    // New API: automatic dependency tracking
+    const selector = atomsOrSelector as (store: Store) => T;
+    const equality = (selectorOrEquality as EqualityFn<T>) ?? defaultEqualityFn;
+    const selectorRef = useRef(selector);
+    const equalityRef = useRef(equality);
+    const dependenciesRef = useRef<Atom<unknown>[]>([]);
+    
+    // Update refs if they change
+    selectorRef.current = selector;
+    equalityRef.current = equality;
+    
+    // Create tracked store that intercepts get() calls
+    const trackedStoreRef = useRef<Store | null>(null);
+    if (!trackedStoreRef.current) {
+      trackedStoreRef.current = {
+        ...store,
+        get: <U>(atom: Atom<U>) => trackedGet(store, atom),
+      } as Store;
+    }
+    
+    // Subscribe to dependencies
+    const subscribe = useCallback(
+      (onStoreChange: () => void) => {
+        const unsubscribes: (() => void)[] = [];
+        
+        // Subscribe to each dependency
+        for (const atom of dependenciesRef.current) {
+          const unsubscribe = store.subscribe(atom, () => {
+            onStoreChange();
+          });
+          unsubscribes.push(unsubscribe);
         }
-      };
-    },
-    [store]
-  );
-  
-  const getSnapshot = useCallback(() => {
-    // Get values from all atoms
-    const values = atomsRef.current.map(atom => store.get(atom));
-    return selectorRef.current(values);
-  }, [store]);
-  
-  const getServerSnapshot = useCallback(() => {
-    return getSnapshot();
-  }, [getSnapshot]);
-  
-  // Track previous value to avoid unnecessary re-renders
-  const previousValueRef = useRef<T>();
-  
-  const currentValue = useSyncExternalStore(
-    subscribe,
-    () => {
-      const newValue = getSnapshot();
-      const prevValue = previousValueRef.current;
+        
+        return () => {
+          for (const unsubscribe of unsubscribes) {
+            unsubscribe();
+          }
+        };
+      },
+      [store]
+    );
+    
+    const getSnapshot = useCallback(() => {
+      // Track dependencies during computation
+      const { result, dependencies } = withTracking(store, () => {
+        // Execute selector with tracked store
+        return selectorRef.current(trackedStoreRef.current!);
+      });
       
-      if (prevValue === undefined || !equalityRef.current(prevValue, newValue)) {
-        previousValueRef.current = newValue;
-        return newValue;
-      }
+      // Update dependencies
+      dependenciesRef.current = dependencies;
       
-      return prevValue!;
-    },
-    getServerSnapshot
-  );
-  
-  return currentValue;
+      return result;
+    }, [store]);
+    
+    const getServerSnapshot = useCallback(() => {
+      return getSnapshot();
+    }, [getSnapshot]);
+    
+    // Track previous value to avoid unnecessary re-renders
+    const previousValueRef = useRef<T>();
+    
+    const currentValue = useSyncExternalStore(
+      subscribe,
+      () => {
+        const newValue = getSnapshot();
+        const prevValue = previousValueRef.current;
+        
+        if (prevValue === undefined || !equalityRef.current(prevValue, newValue)) {
+          previousValueRef.current = newValue;
+          return newValue;
+        }
+        
+        return prevValue!;
+      },
+      getServerSnapshot
+    );
+    
+    return currentValue;
+  } else {
+    // Legacy API: explicit atoms array
+    const atoms = atomsOrSelector;
+    const selector = selectorOrEquality as (values: unknown[]) => T;
+    const equality = equalityFn ?? defaultEqualityFn;
+    const selectorRef = useRef(selector);
+    const equalityRef = useRef(equality);
+    const atomsRef = useRef(atoms);
+    
+    // Update refs if they change
+    selectorRef.current = selector;
+    equalityRef.current = equality;
+    atomsRef.current = atoms;
+    
+    // Subscribe to all atoms
+    const subscribe = useCallback(
+      (onStoreChange: () => void) => {
+        const unsubscribes: (() => void)[] = [];
+        
+        // Subscribe to each atom
+        for (const atom of atomsRef.current) {
+          const unsubscribe = store.subscribe(atom, () => {
+            onStoreChange();
+          });
+          unsubscribes.push(unsubscribe);
+        }
+        
+        return () => {
+          for (const unsubscribe of unsubscribes) {
+            unsubscribe();
+          }
+        };
+      },
+      [store]
+    );
+    
+    const getSnapshot = useCallback(() => {
+      // Get values from all atoms
+      const values = atomsRef.current.map(atom => store.get(atom));
+      return selectorRef.current(values);
+    }, [store]);
+    
+    const getServerSnapshot = useCallback(() => {
+      return getSnapshot();
+    }, [getSnapshot]);
+    
+    // Track previous value to avoid unnecessary re-renders
+    const previousValueRef = useRef<T>();
+    
+    const currentValue = useSyncExternalStore(
+      subscribe,
+      () => {
+        const newValue = getSnapshot();
+        const prevValue = previousValueRef.current;
+        
+        if (prevValue === undefined || !equalityRef.current(prevValue, newValue)) {
+          previousValueRef.current = newValue;
+          return newValue;
+        }
+        
+        return prevValue!;
+      },
+      getServerSnapshot
+    );
+    
+    return currentValue;
+  }
 }
 
 /**
