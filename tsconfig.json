@@ -29,7 +29,9 @@
       "@titanstate/core": ["./packages/core/src"],
       "@titanstate/core/*": ["./packages/core/src/*"],
       "@titanstate/react": ["./packages/react/src"],
-      "@titanstate/react/*": ["./packages/react/src/*"]
+      "@titanstate/react/*": ["./packages/react/src/*"],
+      "@titanstate/worker": ["./packages/worker/src"],
+      "@titanstate/worker/*": ["./packages/worker/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
