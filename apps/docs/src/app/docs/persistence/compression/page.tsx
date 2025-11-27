@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Compression() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Compression</h1>
       
       <p>
@@ -125,7 +125,7 @@ await store.setAsync(largeJsonAtom, updatedData);
 // Load decompresses automatically
 const data = await store.getAsync(largeJsonAtom);`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

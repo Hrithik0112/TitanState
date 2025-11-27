@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function WorkersSetup() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Worker Setup</h1>
       
       <p>
@@ -101,7 +101,7 @@ const store = createStore({
         {processing ? 'Processing...' : 'Process Data'}
       </button>
       {result && <div>{/* Display result */}</div>}
-    </div>
+    </>
   );
 }`}
       </CodeBlock>
@@ -165,7 +165,7 @@ try {
         Workers can be tested using Jest with <code>jest-worker</code> or by mocking
         the Worker API.
       </p>
-    </div>
+    </>
   );
 }
 

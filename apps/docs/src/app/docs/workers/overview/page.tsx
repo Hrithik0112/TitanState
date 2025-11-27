@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function WorkersOverview() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Web Workers Overview</h1>
       
       <p>
@@ -128,7 +128,7 @@ worker.postMessage(buffer, [buffer]); // Transfers ownership`}
         <li><a href="/docs/workers/setup">Setup Guide</a></li>
         <li><a href="/docs/workers/reducers">Worker Reducers</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

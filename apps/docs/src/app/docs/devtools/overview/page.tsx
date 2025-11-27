@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function DevToolsOverview() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>DevTools Overview</h1>
       
       <p>
@@ -122,7 +122,7 @@ await store.transaction(async () => {
         <li><a href="/docs/devtools/extension">Browser Extension</a></li>
         <li><a href="/docs/devtools/time-travel">Time-Travel Debugging</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function QuickStart() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Quick Start</h1>
       
       <p>
@@ -44,7 +44,7 @@ function Counter() {
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
+    </>
   );
 }
 
@@ -113,7 +113,7 @@ function TodoList() {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }
 
@@ -134,7 +134,7 @@ export default function App() {
         <li><a href="/docs/persistence/overview">Add Persistence</a></li>
         <li><a href="/docs/examples">View More Examples</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

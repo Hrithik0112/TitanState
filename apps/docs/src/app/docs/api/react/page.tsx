@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function ReactAPI() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>React API Reference</h1>
       
       <h2>StoreProvider</h2>
@@ -47,7 +47,7 @@ export default function ReactAPI() {
 {`function useDispatch(): (action: Action) => void`}
       </CodeBlock>
       <p>Get dispatch function for actions.</p>
-    </div>
+    </>
   );
 }
 

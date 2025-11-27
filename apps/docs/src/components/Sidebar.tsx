@@ -100,17 +100,17 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:block fixed left-0 top-16 bottom-0 w-64 border-r border-gray-200 bg-white overflow-y-auto">
-      <nav className="p-4">
+    <aside className="hidden lg:block fixed left-0 top-16 bottom-0 w-64 border-r border-gray-200 bg-white overflow-y-auto z-10">
+      <nav className="p-6">
         {navigation.map((section) => (
-          <div key={section.title} className="mb-6">
+          <div key={section.title} className="mb-8">
             <button
               onClick={() => toggleSection(section.title)}
-              className="w-full flex items-center justify-between text-sm font-semibold text-gray-900 mb-2 hover:text-primary-600"
+              className="w-full flex items-center justify-between text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 hover:text-gray-900 transition-colors"
             >
               <span>{section.title}</span>
               <svg
-                className={`h-4 w-4 transition-transform ${
+                className={`h-3 w-3 transition-transform ${
                   openSections.has(section.title) ? 'rotate-90' : ''
                 }`}
                 fill="none"
@@ -131,10 +131,10 @@ export function Sidebar() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className={`block px-3 py-2 text-sm rounded-md transition-colors ${
+                        className={`block px-3 py-2 text-sm rounded-md transition-all duration-200 ${
                           isActive
-                            ? 'bg-primary-50 text-primary-700 font-medium'
-                            : 'text-gray-700 hover:bg-gray-50'
+                            ? 'bg-gray-100 text-gray-900 font-medium shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:translate-x-1'
                         }`}
                       >
                         {item.name}

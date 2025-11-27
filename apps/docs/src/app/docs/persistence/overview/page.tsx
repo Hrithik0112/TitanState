@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function PersistenceOverview() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Persistence Overview</h1>
       
       <p>
@@ -84,7 +84,7 @@ const compressedAtom = store.createAtom('data', largeData, {
         Very large datasets (10MB+) are automatically chunked into smaller pieces
         for efficient storage and retrieval.
       </p>
-    </div>
+    </>
   );
 }
 

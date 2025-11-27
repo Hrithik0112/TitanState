@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Installation() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Installation</h1>
       
       <p>
@@ -97,7 +97,7 @@ export default function Installation() {
         <li><a href="/docs/getting-started/quick-start">Quick Start Guide</a></li>
         <li><a href="/docs/core-concepts/atoms">Learn about Atoms</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function ReactBestPractices() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>React Best Practices</h1>
       
       <p>
@@ -107,9 +107,9 @@ function UserInfo() {
   const email = useAtomValue(emailAtom);
   return (
     <div>
-      <div>{name}</div>
-      <div>{email}</div>
-    </div>
+      <div>{name}</>
+      <div>{email}</>
+    </>
   );
 }`}
       </CodeBlock>
@@ -182,7 +182,7 @@ test('renders counter', () => {
   // Test your component
 });`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

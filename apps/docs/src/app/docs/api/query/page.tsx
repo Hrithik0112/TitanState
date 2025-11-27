@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function QueryAPI() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Query API Reference</h1>
       
       <h2>QueryClient</h2>
@@ -41,7 +41,7 @@ export default function QueryAPI() {
       <CodeBlock language="typescript">
 {`function useQueryClient(): QueryClient`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

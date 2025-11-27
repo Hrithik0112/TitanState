@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function TimeTravel() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Time-Travel Debugging</h1>
       
       <p>
@@ -69,7 +69,7 @@ const state = await reconstructor.reconstruct({
         <li>Caching - reconstructed states are cached</li>
         <li>Snapshots - periodic snapshots speed up reconstruction</li>
       </ul>
-    </div>
+    </>
   );
 }
 

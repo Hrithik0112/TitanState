@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Transactions() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <>
       <h1>Transactions</h1>
       
       <p>
@@ -130,7 +130,7 @@ await store.transaction(async () => {
   });
 }`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 
