@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function ReactHooks() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>React Hooks</h1>
       
       <p>
@@ -26,7 +26,7 @@ function Counter() {
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
+    </>
   );
 }`}
       </CodeBlock>
@@ -90,7 +90,7 @@ function UserName() {
         <li><code>useSelector</code> uses equality checking to prevent unnecessary updates</li>
         <li>All hooks work with React 18 concurrent features</li>
       </ul>
-    </div>
+    </>
   );
 }
 

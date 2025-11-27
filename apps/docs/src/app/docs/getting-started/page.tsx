@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function GettingStarted() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Getting Started</h1>
       
       <p>
@@ -11,7 +11,7 @@ export default function GettingStarted() {
         of Redux/RTK.
       </p>
 
-      <h2>Why TitanState?</h2>
+      <h2 id="why-titanstate">Why TitanState?</h2>
       
       <p>
         Traditional state management libraries struggle with large datasets. TitanState solves this
@@ -26,7 +26,7 @@ export default function GettingStarted() {
         <li><strong>Time-Travel Debugging</strong> - Event-based debugging</li>
       </ul>
 
-      <h2>Installation</h2>
+      <h2 id="installation">Installation</h2>
 
       <CodeBlock language="bash">
 {`# Install core package
@@ -39,7 +39,7 @@ npm install @titanstate/react
 npm install @titanstate/core @titanstate/react @titanstate/persist @titanstate/query`}
       </CodeBlock>
 
-      <h2>Quick Start</h2>
+      <h2 id="quick-start">Quick Start</h2>
 
       <p>Create a store and start using atoms:</p>
 
@@ -65,7 +65,7 @@ const unsubscribe = store.subscribe(countAtom, (newValue) => {
 });`}
       </CodeBlock>
 
-      <h2>With React</h2>
+      <h2 id="with-react">With React</h2>
 
       <CodeBlock language="tsx">
 {`import { createStore } from '@titanstate/core';
@@ -94,7 +94,7 @@ function App() {
 }`}
       </CodeBlock>
 
-      <h2>Next Steps</h2>
+      <h2 id="next-steps">Next Steps</h2>
 
       <ul>
         <li><a href="/docs/core-concepts/atoms">Learn about Atoms</a></li>
@@ -102,7 +102,7 @@ function App() {
         <li><a href="/docs/persistence/overview">Add Persistence</a></li>
         <li><a href="/docs/examples">View Examples</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

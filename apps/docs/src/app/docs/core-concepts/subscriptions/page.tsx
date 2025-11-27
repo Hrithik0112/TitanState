@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Subscriptions() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Subscriptions</h1>
       
       <p>
@@ -119,7 +119,7 @@ const userAtom = store.createAtom('user', user, {
         <li>Equality checking prevents unnecessary notifications</li>
         <li>Unsubscribe when no longer needed to free memory</li>
       </ul>
-    </div>
+    </>
   );
 }
 

@@ -131,10 +131,10 @@ export function Sidebar() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className={`block px-2 py-1.5 text-sm rounded-md transition-colors ${
+                        className={`block px-3 py-2 text-sm rounded-md transition-all duration-200 ${
                           isActive
-                            ? 'bg-gray-100 text-gray-900 font-medium'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                            ? 'bg-gray-100 text-gray-900 font-medium shadow-sm'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:translate-x-1'
                         }`}
                       >
                         {item.name}

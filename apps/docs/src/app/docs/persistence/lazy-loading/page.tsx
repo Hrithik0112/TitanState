@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function LazyLoading() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Lazy Loading</h1>
       
       <p>
@@ -75,7 +75,7 @@ if (!notesAtom.meta.hydrated) {
         <button onClick={loadNotes} disabled={loading}>
           {loading ? 'Loading...' : 'Load Notes'}
         </button>
-      </div>
+      </>
     );
   }
   
@@ -116,7 +116,7 @@ const largeDataAtom = store.createAtom('largeData', [], {
   lazyLoad: true, // Loads when accessed
 });`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function ReactSetup() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>React Setup</h1>
       
       <p>
@@ -58,7 +58,7 @@ function Counter() {
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
+    </>
   );
 }`}
       </CodeBlock>
@@ -123,7 +123,7 @@ function App() {
         <li><a href="/docs/react/best-practices">Best Practices</a></li>
         <li><a href="/docs/core-concepts/atoms">Core Concepts</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 

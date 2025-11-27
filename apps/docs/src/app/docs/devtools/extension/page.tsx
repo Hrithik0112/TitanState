@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function DevToolsExtension() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>DevTools Browser Extension</h1>
       
       <p>
@@ -95,7 +95,7 @@ const store = createStore({
         <li>Check that DevTools bridge is initialized</li>
         <li>Verify event logging is enabled</li>
       </ul>
-    </div>
+    </>
   );
 }
 

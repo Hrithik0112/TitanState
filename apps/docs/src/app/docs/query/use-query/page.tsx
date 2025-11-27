@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function UseQuery() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>useQuery Hook</h1>
       
       <p>
@@ -184,12 +184,12 @@ useQuery(['user', userId], () => fetch(`/api/users/${userId}`).then(r => r.json(
   return (
     <div>
       <button onClick={() => refetch()}>Refresh</button>
-      <div>{data}</div>
-    </div>
+      <div>{data}</>
+    </>
   );
 }`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

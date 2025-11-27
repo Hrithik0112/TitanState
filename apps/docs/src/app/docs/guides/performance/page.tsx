@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Performance() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Performance Guide</h1>
       
       <p>
@@ -94,7 +94,7 @@ const result = await workerBridge.dispatchToWorker('namespace', action, state);`
         <li>Use chunking for very large datasets (automatic for 10MB+)</li>
         <li>Unsubscribe from atoms when components unmount</li>
       </ul>
-    </div>
+    </>
   );
 }
 

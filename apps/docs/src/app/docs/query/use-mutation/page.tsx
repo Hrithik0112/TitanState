@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function UseMutation() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>useMutation Hook</h1>
       
       <p>
@@ -221,7 +221,7 @@ function UpdateUser() {
   );
 }`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

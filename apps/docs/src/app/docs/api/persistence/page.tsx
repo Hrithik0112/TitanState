@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function PersistenceAPI() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Persistence API Reference</h1>
       
       <h2>Drivers</h2>
@@ -64,7 +64,7 @@ export default function PersistenceAPI() {
   options?: CompressionOptions
 ): Promise<ArrayBuffer>`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

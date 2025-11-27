@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Store() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Store</h1>
       
       <p>
@@ -116,7 +116,7 @@ setAsync<T>(atom: Atom<T>, value: T): Promise<void>`}
         <li>Use transactions for multiple related updates</li>
         <li>Clean up subscriptions when components unmount</li>
       </ul>
-    </div>
+    </>
   );
 }
 

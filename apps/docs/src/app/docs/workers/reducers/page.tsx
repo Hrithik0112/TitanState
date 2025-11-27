@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function WorkerReducers() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Worker Reducers</h1>
       
       <p>
@@ -161,7 +161,7 @@ try {
   }
 });`}
       </CodeBlock>
-    </div>
+    </>
   );
 }
 

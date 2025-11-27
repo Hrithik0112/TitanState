@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function BestPractices() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Best Practices</h1>
       
       <p>
@@ -72,7 +72,7 @@ try {
         <li>Mock worker bridge for worker tests</li>
         <li>Test atom updates and subscriptions</li>
       </ul>
-    </div>
+    </>
   );
 }
 

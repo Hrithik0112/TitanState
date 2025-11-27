@@ -1,13 +1,14 @@
 import Link from 'next/link';
+import { InfinityAnimation, AtomIcon, StateFlowIcon } from '@/components/icons';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative isolate overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
-          <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-            <div className="mt-24 sm:mt-32 lg:mt-16">
+        <div className="mx-auto max-w-7xl px-6 pb-16 pt-8 sm:pb-20 lg:flex lg:px-8 lg:py-24">
+          <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-4">
+            <div className="mt-8 sm:mt-12 lg:mt-8">
               <a
                 href="https://github.com/titanstate/titanstate"
                 className="inline-flex space-x-6"
@@ -32,34 +33,41 @@ export default function Home() {
                 </span>
               </a>
             </div>
-            <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl animate-in fade-in slide-in-from-bottom-4 duration-700">
               The React Framework for State Management
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              TitanState enables you to create <strong>high-quality state management</strong> with
+            <p className="mt-5 text-lg leading-7 text-gray-600 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
+              TitanState enables you to create <strong className="text-gray-900">high-quality state management</strong> with
               the power of atom-based reactivity. Handle 100MB+ datasets with lazy loading,
               compression, and efficient memory management.
             </p>
-            <div className="mt-10 flex items-center gap-x-6">
+            <div className="mt-8 flex items-center gap-x-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300">
               <Link
                 href="/docs/getting-started"
-                className="rounded-md bg-black px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="group rounded-md bg-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200 hover:scale-105 hover:shadow-md"
               >
                 Get started
+                <span className="inline-block ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/docs"
-                className="text-sm font-semibold leading-6 text-gray-900"
+                className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 transition-colors duration-200 group"
               >
-                Documentation <span aria-hidden="true">→</span>
+                Documentation <span className="inline-block ml-1 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
               </Link>
+            </div>
+          </div>
+          {/* Animated Infinity SVG */}
+          <div className="mt-16 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+            <div className="flex justify-center lg:justify-end">
+              <InfinityAnimation className="w-full max-w-md lg:max-w-lg" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 sm:py-20">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-600">
             Everything you need
@@ -72,24 +80,12 @@ export default function Home() {
             datasets while maintaining excellent developer experience.
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            <div className="flex flex-col">
+        <div className="mx-auto mt-12 max-w-2xl sm:mt-16 lg:mt-20 lg:max-w-none">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-12 lg:max-w-none lg:grid-cols-3">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
-                  <svg
-                    className="h-6 w-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-                    />
-                  </svg>
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
+                  <AtomIcon size={24} className="text-white" />
                 </div>
                 Atom-based Architecture
               </dt>
@@ -100,22 +96,10 @@ export default function Home() {
                 </p>
               </dd>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
-                  <svg
-                    className="h-6 w-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-                    />
-                  </svg>
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
+                  <StateFlowIcon size={24} className="text-white" />
                 </div>
                 Lazy Hydration
               </dt>
@@ -126,9 +110,9 @@ export default function Home() {
                 </p>
               </dd>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -152,9 +136,9 @@ export default function Home() {
                 </p>
               </dd>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -178,9 +162,9 @@ export default function Home() {
                 </p>
               </dd>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -204,9 +188,9 @@ export default function Home() {
                 </p>
               </dd>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col group">
               <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600">
+                <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-indigo-600 group-hover:bg-indigo-700 group-hover:scale-110 transition-all duration-200">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -236,7 +220,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <div className="bg-gray-900">
-        <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
+        <div className="px-6 py-16 sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Ready to get started?
@@ -245,18 +229,19 @@ export default function Home() {
               Start building with TitanState today. Get up and running in minutes with our
               comprehensive documentation and examples.
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <div className="mt-8 flex items-center justify-center gap-x-6">
               <Link
                 href="/docs/getting-started"
-                className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="group rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all duration-200 hover:scale-105 hover:shadow-md"
               >
                 Get started
+                <span className="inline-block ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/docs"
-                className="text-sm font-semibold leading-6 text-white"
+                className="text-sm font-semibold leading-6 text-white hover:text-gray-300 transition-colors duration-200 group"
               >
-                Learn more <span aria-hidden="true">→</span>
+                Learn more <span className="inline-block ml-1 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

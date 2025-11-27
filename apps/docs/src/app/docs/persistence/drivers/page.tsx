@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Drivers() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Storage Drivers</h1>
       
       <p>
@@ -185,7 +185,7 @@ class CustomDriver implements Driver {
         <li><strong>FileSystemDriver</strong> - User-controlled file storage</li>
         <li><strong>RemoteDriver</strong> - Server sync, cloud storage</li>
       </ul>
-    </div>
+    </>
   );
 }
 

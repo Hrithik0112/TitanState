@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function MigrationRTK() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Migration from Redux Toolkit</h1>
       
       <p>
@@ -104,7 +104,7 @@ function Counter() {
       <button onClick={() => dispatch(counterSlice.actions.increment())}>
         Increment
       </button>
-    </div>
+    </>
   );
 }`}
       </CodeBlock>
@@ -122,7 +122,7 @@ function Counter() {
     <div>
       <p>{count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
+    </>
   );
 }`}
       </CodeBlock>
@@ -136,7 +136,7 @@ function Counter() {
         <li>Time-travel debugging</li>
         <li>Smaller bundle size for simple use cases</li>
       </ul>
-    </div>
+    </>
   );
 }
 

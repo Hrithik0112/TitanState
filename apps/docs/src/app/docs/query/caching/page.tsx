@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Caching() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Caching</h1>
       
       <p>
@@ -148,7 +148,7 @@ const queryClient = new QueryClient({
         <li>Set max size to prevent memory issues</li>
         <li>Invalidate cache after mutations</li>
       </ul>
-    </div>
+    </>
   );
 }
 

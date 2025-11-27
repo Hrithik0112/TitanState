@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function QueryOverview() {
   return (
-    <div className="prose prose-gray max-w-none">
+    <>
       <h1>Query Client Overview</h1>
       
       <p>
@@ -136,7 +136,7 @@ function UpdateUser() {
         <li><a href="/docs/query/use-mutation">Learn about useMutation</a></li>
         <li><a href="/docs/query/caching">Caching Strategies</a></li>
       </ul>
-    </div>
+    </>
   );
 }
 
