@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function ReactBestPractices() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="prose prose-gray max-w-none">
       <h1>React Best Practices</h1>
       
       <p>

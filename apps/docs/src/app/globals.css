@@ -10,44 +10,90 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
+  font-feature-settings: 'rlig' 1, 'calt' 1;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Next.js style */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: #d1d5db;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #9ca3af;
+  background-clip: content-box;
 }
 
-/* Code block styles */
+/* Code block styles - Next.js style */
 pre {
-  @apply rounded-lg p-4 overflow-x-auto;
+  @apply rounded-lg p-4 overflow-x-auto bg-gray-900 text-gray-100;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 code {
   @apply font-mono text-sm;
 }
 
-/* Link styles */
-a {
-  @apply text-primary-600 hover:text-primary-700 transition-colors;
+pre code {
+  @apply text-gray-100;
+  background: transparent;
+  padding: 0;
+}
+
+/* Inline code */
+:not(pre) > code {
+  @apply bg-gray-100 text-gray-900 px-1.5 py-0.5 rounded;
+  font-size: 0.875em;
+}
+
+/* Link styles - Next.js style */
+.prose a {
+  @apply text-gray-900 underline decoration-gray-300 underline-offset-2 hover:decoration-gray-900 transition-colors;
+}
+
+/* Typography improvements */
+h1 {
+  @apply text-4xl font-bold tracking-tight text-gray-900 mb-6;
+}
+
+h2 {
+  @apply text-3xl font-semibold tracking-tight text-gray-900 mt-12 mb-4;
+}
+
+h3 {
+  @apply text-2xl font-semibold tracking-tight text-gray-900 mt-8 mb-3;
+}
+
+h4 {
+  @apply text-xl font-semibold tracking-tight text-gray-900 mt-6 mb-2;
+}
+
+p {
+  @apply text-gray-600 leading-7 mb-4;
+}
+
+ul, ol {
+  @apply text-gray-600 mb-4 space-y-2;
+}
+
+li {
+  @apply leading-7;
+}
+
+blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-700 my-4;
 }
 

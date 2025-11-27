@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function QuickStart() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="prose prose-gray max-w-none">
       <h1>Quick Start</h1>
       
       <p>

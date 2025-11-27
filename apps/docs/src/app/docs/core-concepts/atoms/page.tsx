@@ -2,7 +2,7 @@ import { CodeBlock } from '@/components/CodeBlock';
 
 export default function Atoms() {
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="prose prose-gray max-w-none">
       <h1>Atoms</h1>
       
       <p>
